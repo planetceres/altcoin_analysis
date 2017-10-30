@@ -27,7 +27,7 @@ Data source: https://www.kaggle.com/jessevent/all-crypto-currencies
 
 ```{r}
 cc <- read.csv("./data/crypto-markets.csv")
-cc[order(cc$date),]
+cc <- cc[order(cc$date),]
 ```
 
 
@@ -41,7 +41,7 @@ names(cc)
 ```
 
 ```{r}
-levels(factor(cc$coin))
+#levels(factor(cc$coin))
 ```
 
 
@@ -51,25 +51,25 @@ par(mfrow=c(2,2))
 btc <- cc[which(cc$coin == "Bitcoin"),]
 btc$date.fmt <- strptime(as.character(btc$date), "%Y-%m-%d")
 
-btc.ts <- rev(ts(btc$close, frequency=365, start=c(2011,08,07)))
+btc.ts <- ts(btc$close, frequency=365, start=c(2011,08,07))
 plot(btc.ts, type='l', col=line_color1, main="Bitcoin Price")
 
 btcc <- cc[which(cc$coin == "Bitcoin Cash"),]
 btcc$date.fmt <- strptime(as.character(btcc$date), "%Y-%m-%d")
 
-btcc.ts <- rev(ts(btcc$close, frequency=365, start=c(2016,11,03)))
+btcc.ts <- ts(btcc$close, frequency=365, start=c(2016,11,03))
 plot(btcc.ts, type='l', col=line_color1, main="Bitcoin Cash Price")
 
 btcz <- cc[which(cc$coin == "Bitcoin Unlimited Futures"),]
 btcz$date.fmt <- strptime(as.character(btcz$date), "%Y-%m-%d")
 
-btcz.ts <- rev(ts(btcz$close, frequency=365, start=c(2016,11,03)))
+btcz.ts <- ts(btcz$close, frequency=365, start=c(2016,11,03))
 plot(btcz.ts, type='l', col=line_color1, main="Bitcoin Unlimited Futures Price")
 
 bpc <- cc[which(cc$coin == "BipCoin"),]
 bpc$date.fmt <- strptime(as.character(bpc$date), "%Y-%m-%d")
 
-bpc.ts <- rev(ts(bpc$close, frequency=365, start=c(2016,11,03)))
+bpc.ts <- ts(bpc$close, frequency=365, start=c(2016,11,03))
 plot(bpc.ts, type='l', col=line_color1, main="Bipcoin Price")
 
 ```
@@ -78,7 +78,7 @@ plot(bpc.ts, type='l', col=line_color1, main="Bipcoin Price")
 bpc <- cc[which(cc$coin == "BipCoin"),]
 bpc$date.fmt <- strptime(as.character(bpc$date), "%Y-%m-%d")
 
-bpc.ts <- rev(ts(bpc$close, frequency=365, start=c(2016,11,03)))
+bpc.ts <- ts(bpc$close, frequency=365, start=c(2016,11,03))
 plot(bpc.ts, type='l', col=line_color1, main="Bipcoin Price")
 ```
 
@@ -89,7 +89,7 @@ plot(bpc.ts, type='l', col=line_color1, main="Bipcoin Price")
 eth <- cc[which(cc$coin == "Ethereum"),]
 eth$date.fmt <- strptime(as.character(eth$date), "%Y-%m-%d")
 
-eth.ts <- rev(ts(eth$close, frequency=365, start=c(2015,08,07)))
+eth.ts <- ts(eth$close, frequency=365, start=c(2015,08,07))
 plot(eth.ts, type='l', col=line_color1)
 ```
 
