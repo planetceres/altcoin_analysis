@@ -1,0 +1,117 @@
+---
+title: "Token Analysis"
+output: html_notebook
+---
+
+```{r}
+library(Hmisc)
+library(dplyr)
+library(forecast)
+library(astsa)
+library(vars)
+library(tseries)
+library(effects)
+library(ggplot2)
+line_color1 <- rgb(165/255, 203/255, 223/255)
+line_color2 <- rgb(199/255, 37/255, 4/255, 0.5)
+line_color3 <- rgb(200/255, 200/255, 200/255, 0.5)
+line_color4 <- rgb(133/255, 161/255, 198/255, 0.25)
+```
+
+
+
+Data source: https://www.kaggle.com/jessevent/all-crypto-currencies
+
+```{r}
+cc <- read.csv("./data/crypto-markets.csv")
+cc[order(cc$date),]
+```
+
+
+```{r}
+Hmisc::describe(cc)
+```
+
+
+```{r}
+names(cc)
+```
+
+```{r}
+levels(factor(cc$coin))
+```
+
+
+
+```{r}
+par(mfrow=c(2,2))
+btc <- cc[which(cc$coin == "Bitcoin"),]
+btc$date.fmt <- strptime(as.character(btc$date), "%Y-%m-%d")
+
+btc.ts <- rev(ts(btc$close, frequency=365, start=c(2011,08,07)))
+plot(btc.ts, type='l', col=line_color1, main="Bitcoin Price")
+
+btcc <- cc[which(cc$coin == "Bitcoin Cash"),]
+btcc$date.fmt <- strptime(as.character(btcc$date), "%Y-%m-%d")
+
+btcc.ts <- rev(ts(btcc$close, frequency=365, start=c(2016,11,03)))
+plot(btcc.ts, type='l', col=line_color1, main="Bitcoin Cash Price")
+
+btcz <- cc[which(cc$coin == "Bitcoin Unlimited Futures"),]
+btcz$date.fmt <- strptime(as.character(btcz$date), "%Y-%m-%d")
+
+btcz.ts <- rev(ts(btcz$close, frequency=365, start=c(2016,11,03)))
+plot(btcz.ts, type='l', col=line_color1, main="Bitcoin Unlimited Futures Price")
+
+bpc <- cc[which(cc$coin == "BipCoin"),]
+bpc$date.fmt <- strptime(as.character(bpc$date), "%Y-%m-%d")
+
+bpc.ts <- rev(ts(bpc$close, frequency=365, start=c(2016,11,03)))
+plot(bpc.ts, type='l', col=line_color1, main="Bipcoin Price")
+
+```
+
+```{r}
+bpc <- cc[which(cc$coin == "BipCoin"),]
+bpc$date.fmt <- strptime(as.character(bpc$date), "%Y-%m-%d")
+
+bpc.ts <- rev(ts(bpc$close, frequency=365, start=c(2016,11,03)))
+plot(bpc.ts, type='l', col=line_color1, main="Bipcoin Price")
+```
+
+
+
+
+```{r}
+eth <- cc[which(cc$coin == "Ethereum"),]
+eth$date.fmt <- strptime(as.character(eth$date), "%Y-%m-%d")
+
+eth.ts <- rev(ts(eth$close, frequency=365, start=c(2015,08,07)))
+plot(eth.ts, type='l', col=line_color1)
+```
+
+
+
+```{r}
+cc.vol <- cc[c('volume', 'coin')]
+cc.agg.1 <- aggregate(volume ~ coin, cc.vol, mean)
+hist(cc.agg.1$volume, breaks = 30, col=line_color3, main="Trading volume of Individual Coins")
+```
+
+
+
+
+
+
+```{r}
+stj <- cc[which(cc$coin == "Storj"),]
+stj$data.fmt <- strptime(as.character(stj$date), "%Y-%m-%d")
+
+stj.ts <- rev(ts(stj$close, frequency=365, start=c(2017,7,2)))
+plot(stj.ts, type='l', col=line_color1)
+```
+
+
+
+
+
